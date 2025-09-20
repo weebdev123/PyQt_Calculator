@@ -63,6 +63,96 @@ class MainWindow(QMainWindow):
         central_widget.setLayout(self.main_layout)
         self.setCentralWidget(central_widget)
 
+        # Digits
+        self.btn_7.clicked.connect(self.on_click_7)
+        self.btn_8.clicked.connect(self.on_click_8)
+        self.btn_9.clicked.connect(self.on_click_9)
+        self.btn_4.clicked.connect(self.on_click_4)
+        self.btn_5.clicked.connect(self.on_click_5)
+        self.btn_6.clicked.connect(self.on_click_6)
+        self.btn_1.clicked.connect(self.on_click_1)
+        self.btn_2.clicked.connect(self.on_click_2)
+        self.btn_3.clicked.connect(self.on_click_3)
+        self.btn_0.clicked.connect(self.on_click_0)
+
+        # Operators
+        self.btn_div.clicked.connect(self.on_click_div)
+        self.btn_mul.clicked.connect(self.on_click_mul)
+        self.btn_sub.clicked.connect(self.on_click_sub)
+        self.btn_add.clicked.connect(self.on_click_add)
+        self.btn_dot.clicked.connect(self.on_click_dot)
+
+        # Equal
+        self.btn_equal.clicked.connect(self.on_click_equal)
+
+    def on_click_7(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "7")
+
+    def on_click_8(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "8")
+
+    def on_click_9(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "9")
+
+    def on_click_div(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "/")
+
+    def on_click_4(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "4")
+
+    def on_click_5(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "5")
+
+    def on_click_6(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "6")
+
+    def on_click_mul(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "*")
+
+    def on_click_1(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "1")
+
+    def on_click_2(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "2")
+
+    def on_click_3(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "3")
+
+    def on_click_sub(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "-")
+
+    def on_click_equal(self):
+        try:
+            expression = self.calculation_bar.text()
+            result = str(eval(expression))  # careful with eval for user input!
+            self.calculation_bar.setText(result)
+        except Exception:
+            self.calculation_bar.setText("Error")
+
+    def on_click_0(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "0")
+
+    def on_click_dot(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + ".")
+
+    def on_click_add(self):
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current + "+")
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
