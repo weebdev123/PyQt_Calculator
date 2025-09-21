@@ -1,13 +1,14 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QWidget, QVBoxLayout, QGridLayout
-
+from PyQt5.QtGui import QFont
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.calculation_bar = QLineEdit()
-
+        self.calculation_bar.setFixedHeight(60)  # make the bar taller
+        self.calculation_bar.setFont(QFont("Arial", 20))  # larger font size
         # Button labels arranged like a calculator
         buttons = [
             ["7", "8", "9", "/"],
@@ -27,6 +28,7 @@ class MainWindow(QMainWindow):
             for col, text in enumerate(row_values):
                 btn = QPushButton(text)
                 btn.setFixedSize(50, 50)  # make it look neat
+                btn.setFont(QFont("Arial", 16))
                 grid.addWidget(btn, row, col)
 
                 if text == "=":
