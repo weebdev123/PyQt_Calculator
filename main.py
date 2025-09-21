@@ -1,4 +1,5 @@
 import sys
+import re
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QWidget, QVBoxLayout, QGridLayout
 from PyQt5.QtGui import QFont
 
@@ -54,9 +55,16 @@ class MainWindow(QMainWindow):
         self.calculation_bar.setText(current + text)
 
     def on_click_equal(self):
-        """Evaluate the expression"""
+        """Evaluate the expression safely"""
+        expr = self.calculation_bar.text()
+
+        # Allow only numbers, operators, parentheses, and dot
+        if not re.fullmatch(r"[0-9+\-*/(). ]*", expr):
+            self.calculation_bar.setText("Error")
+            return
+
         try:
-            result = str(eval(self.calculation_bar.text()))
+            result = str(eval(expr, {"__builtins__": None}, {}))
             self.calculation_bar.setText(result)
         except Exception:
             self.calculation_bar.setText("Error")
