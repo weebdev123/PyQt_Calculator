@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QLineEdit, QMessageBox, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QWidget, QVBoxLayout, QGridLayout
 
 
 class MainWindow(QMainWindow):
@@ -7,81 +7,52 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.calculation_bar = QLineEdit()
-        self.btn_7 = QPushButton("7")
-        self.btn_8 = QPushButton("8")
-        self.btn_9 = QPushButton("9")
-        self.btn_div = QPushButton("/")
 
-        self.btn_4 = QPushButton("4")
-        self.btn_5 = QPushButton("5")
-        self.btn_6 = QPushButton("6")
-        self.btn_mul = QPushButton("*")
+        # Button labels arranged like a calculator
+        buttons = [
+            ["7", "8", "9", "/"],
+            ["4", "5", "6", "*"],
+            ["1", "2", "3", "-"],
+            ["0", ".", "=", "+"]
+        ]
 
-        self.btn_1 = QPushButton("1")
-        self.btn_2 = QPushButton("2")
-        self.btn_3 = QPushButton("3")
-        self.btn_sub = QPushButton("-")
-
-        self.btn_equal = QPushButton("=")
-        self.btn_0 = QPushButton("0")
-        self.btn_dot = QPushButton(".")
-        self.btn_add = QPushButton("+")
-
+        # Main layout
         self.main_layout = QVBoxLayout()
         self.main_layout.addWidget(self.calculation_bar)
 
-        self.btn_layout1 = QHBoxLayout()
-        self.btn_layout1.addWidget(self.btn_7)
-        self.btn_layout1.addWidget(self.btn_8)
-        self.btn_layout1.addWidget(self.btn_9)
-        self.btn_layout1.addWidget(self.btn_div)
+        # Grid layout for buttons
+        grid = QGridLayout()
 
-        self.btn_layout2 = QHBoxLayout()
-        self.btn_layout2.addWidget(self.btn_4)
-        self.btn_layout2.addWidget(self.btn_5)
-        self.btn_layout2.addWidget(self.btn_6)
-        self.btn_layout2.addWidget(self.btn_mul)
+        for row, row_values in enumerate(buttons):
+            for col, text in enumerate(row_values):
+                btn = QPushButton(text)
+                btn.setFixedSize(50, 50)  # make it look neat
+                grid.addWidget(btn, row, col)
 
-        self.btn_layout3 = QHBoxLayout()
-        self.btn_layout3.addWidget(self.btn_1)
-        self.btn_layout3.addWidget(self.btn_2)
-        self.btn_layout3.addWidget(self.btn_3)
-        self.btn_layout3.addWidget(self.btn_sub)
+                if text == "=":
+                    btn.clicked.connect(self.on_click_equal)
+                else:
+                    btn.clicked.connect(lambda _, t=text: self._append(t))
 
-        self.btn_layout4 = QHBoxLayout()
-        self.btn_layout4.addWidget(self.btn_equal)
-        self.btn_layout4.addWidget(self.btn_0)
-        self.btn_layout4.addWidget(self.btn_dot)
-        self.btn_layout4.addWidget(self.btn_add)
-
-        self.main_layout.addLayout(self.btn_layout1)
-        self.main_layout.addLayout(self.btn_layout2)
-        self.main_layout.addLayout(self.btn_layout3)
-        self.main_layout.addLayout(self.btn_layout4)
+        self.main_layout.addLayout(grid)
 
         central_widget = QWidget()
         central_widget.setLayout(self.main_layout)
         self.setCentralWidget(central_widget)
 
-        for btn in [
-            self.btn_0, self.btn_1, self.btn_2, self.btn_3, self.btn_4,
-            self.btn_5, self.btn_6, self.btn_7, self.btn_8, self.btn_9,
-            self.btn_add, self.btn_sub, self.btn_mul, self.btn_div, self.btn_dot
-        ]:
-            btn.clicked.connect(lambda _, b=btn: self._append(b.text()))
-
-        self.btn_equal.clicked.connect(self.on_click_equal)
-
     def _append(self, text):
+        """Append character to the display"""
         current = self.calculation_bar.text()
         self.calculation_bar.setText(current + text)
 
     def on_click_equal(self):
+        """Evaluate the expression"""
         try:
             result = str(eval(self.calculation_bar.text()))
             self.calculation_bar.setText(result)
         except Exception:
             self.calculation_bar.setText("Error")
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
