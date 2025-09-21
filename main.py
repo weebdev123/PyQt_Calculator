@@ -11,10 +11,11 @@ class MainWindow(QMainWindow):
         self.calculation_bar.setFont(QFont("Arial", 20))  # larger font size
         # Button labels arranged like a calculator
         buttons = [
-            ["7", "8", "9", "/"],
-            ["4", "5", "6", "*"],
-            ["1", "2", "3", "-"],
-            ["0", ".", "=", "+"]
+            [".", "C", "⌫", "/"],
+            ["7", "8", "9", "*"],
+            ["4", "5", "6", "-"],
+            ["1", "2", "3", "+"],
+            ["0", "(", ")", "="]
         ]
 
         # Main layout
@@ -27,12 +28,17 @@ class MainWindow(QMainWindow):
         for row, row_values in enumerate(buttons):
             for col, text in enumerate(row_values):
                 btn = QPushButton(text)
-                btn.setFixedSize(50, 50)  # make it look neat
+                btn.setFixedSize(70, 70)
                 btn.setFont(QFont("Arial", 16))
                 grid.addWidget(btn, row, col)
 
+                # Connect signals
                 if text == "=":
                     btn.clicked.connect(self.on_click_equal)
+                elif text == "C":
+                    btn.clicked.connect(self.on_clear)
+                elif text == "⌫":
+                    btn.clicked.connect(self.on_backspace)
                 else:
                     btn.clicked.connect(lambda _, t=text: self._append(t))
 
@@ -54,6 +60,15 @@ class MainWindow(QMainWindow):
             self.calculation_bar.setText(result)
         except Exception:
             self.calculation_bar.setText("Error")
+
+    def on_clear(self):
+        """Clear the entire display"""
+        self.calculation_bar.clear()
+
+    def on_backspace(self):
+        """Delete the last character"""
+        current = self.calculation_bar.text()
+        self.calculation_bar.setText(current[:-1])
 
 
 if __name__ == "__main__":
