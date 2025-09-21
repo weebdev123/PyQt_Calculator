@@ -11,6 +11,8 @@ class MainWindow(QMainWindow):
         self.calculation_bar = QLineEdit()
         self.calculation_bar.setFixedHeight(60)  # make the bar taller
         self.calculation_bar.setFont(QFont("Arial", 20))  # larger font size
+        self.calculation_bar.setFocus()
+
         # Button labels arranged like a calculator
         buttons = [
             [".", "C", "⌫", "/"],
@@ -32,6 +34,7 @@ class MainWindow(QMainWindow):
                 btn = QPushButton(text)
                 btn.setFixedSize(70, 70)
                 btn.setFont(QFont("Arial", 16))
+                btn.setFocusPolicy(Qt.NoFocus)
                 grid.addWidget(btn, row, col)
 
                 # Connect signals
