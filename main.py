@@ -2,6 +2,7 @@ import sys
 import re
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QWidget, QVBoxLayout, QGridLayout
 from PyQt5.QtGui import QFont
+from PyQt5.QtCore import Qt
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -78,6 +79,20 @@ class MainWindow(QMainWindow):
         current = self.calculation_bar.text()
         self.calculation_bar.setText(current[:-1])
 
+    def keyPressEvent(self, event):
+        """Handle keyboard input"""
+        key = event.key()
+
+        if key == Qt.Key_Return or key == Qt.Key_Enter:
+            self.on_click_equal()
+        elif key == Qt.Key_Backspace:
+            self.on_backspace()
+        elif key == Qt.Key_Escape:
+            self.on_clear()
+        else:
+            text = event.text()
+            if text in "0123456789+-*/().":
+                self._append(text)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
