@@ -71,8 +71,10 @@ python main.py
 Alternatively, open the project in PyCharm and run main.py directly from the IDE.
 
 ## Testing
-Testing support will be added in future updates.  
-For now, no automated test suite is available. You can manually verify features by running `main.py` and trying different calculator operations.
+For testing, a test folder has been created. To run tests, run following code from your project root:
+```
+python -m unittest discover -s tests
+```
 
 ## Development / PyCharm notes
 - Open the project folder in **PyCharm** (Community or Professional).  
